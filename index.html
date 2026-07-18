@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎉 Happy Birthday, Sayang! 🎂</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(145deg, #1a0b0e, #2d141e);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Background bintang jatuh */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            color: #ffd700;
+            font-size: 1.2rem;
+            opacity: 0;
+            animation: shootingStar 4s infinite ease-in-out;
+        }
+
+        @keyframes shootingStar {
+            0% { transform: translate(0, 0) scale(0.5); opacity: 0; }
+            10% { opacity: 1; }
+            30% { transform: translate(-100px, 100px) scale(1.2); opacity: 0.8; }
+            50% { transform: translate(-200px, 200px) scale(1.5); opacity: 0; }
+            100% { opacity: 0; }
+        }
+
+        /* Kartu utama */
+        .card {
+            position: relative;
+            z-index: 10;
+            max-width: 750px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 60px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            padding: 45px 35px 50px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            min-height: 550px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* ===== STATE AWAL (SURPRISE) ===== */
+        .surprise-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            animation: pulseGlow 2s infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(255, 46, 99, 0.3)); }
+            100% { transform: scale(1.02); filter: drop-shadow(0 0 40px rgba(255, 46, 99, 0.6)); }
+        }
+
+        .surprise-emoji-big {
+            font-size: 7rem;
+            animation: bounceBig 1.5s infinite alternate ease-in-out;
+            display: inline-block;
+        }
+
+        @keyframes bounceBig {
+            0% { transform: translateY(0) scale(1); }
+            100% { transform: translateY(-20px) scale(1.1); }
+        }
+
+        .surprise-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            color: #ff6b8a;
+            text-shadow: 0 0 30px rgba(255, 46, 99, 0.4);
+        }
+
+        .surprise-sub {
+            color: #ffb3c6;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px 24px;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .btn-reveal {
+            background: linear-gradient(135deg, #ff2e63, #ff4d7a);
+            border: none;
+            color: white;
+            font-weight: 700;
+            font-size: 1.3rem;
+            padding: 18px 50px;
+            border-radius: 80px;
+            box-shadow: 0 12px 30px -6px rgba(255, 46, 99, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 1px;
+            margin-top: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-reveal:hover {
+            transform: scale(1.05) translateY(-3px);
+            box-shadow: 0 20px 40px -6px rgba(255, 46, 99, 0.7);
+        }
+
+        .btn-reveal:active {
+            transform: scale(0.95);
+        }
+
+        .btn-reveal .shine {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 60%);
+            animation: shineMove 3s infinite;
+        }
+
+        @keyframes shineMove {
+            0% { transform: translate(-30%, -30%) rotate(0deg); }
+            100% { transform: translate(30%, 30%) rotate(360deg); }
+        }
+
+        /* ===== STATE UCAPAN (SETELAH KLIK) ===== */
+        .wish-state {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            animation: fadeInUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(40px) scale(0.9); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .wish-state.active {
+            display: flex;
+        }
+
+        .surprise-state.hidden {
+            display: none;
+        }
+
+        .badge {
+            background: linear-gradient(135deg, #ff2e63, #ff6b8a);
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.85rem;
+            padding: 8px 28px;
+            border-radius: 60px;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            box-shadow: 0 8px 20px rgba(255, 46, 99, 0.3);
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4rem;
+            color: #ff6b8a;
+            margin-bottom: 2px;
+            text-shadow: 0 4px 20px rgba(255, 46, 99, 0.2);
+        }
+
+        .sub-name {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ff3b6f, #ff8da1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+
+        .divider {
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, #ff2e63, #ff8da1);
+            margin: 10px auto 20px;
+            border-radius: 10px;
+        }
+
+        .message-box {
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: #f0d6df;
+            font-weight: 400;
+            padding: 20px 24px;
+            margin: 10px 0 20px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            max-width: 90%;
+        }
+
+        .message-box strong {
+            color: #ff6b8a;
+            font-weight: 700;
+        }
+
+        .message-box .love-note {
+            display: block;
+            margin-top: 12px;
+            font-size: 0.95rem;
+            color: #cfa0b0;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        /* Balon & emoji di wish state */
+        .wish-emoji-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px 16px;
+            margin: 18px 0 10px;
+        }
+
+        .wish-emoji-grid span {
+            font-size: 2.8rem;
+            animation: floatEmoji 2.8s infinite alternate ease-in-out;
+            display: inline-block;
+            filter: drop-shadow(0 4px 12px rgba(255, 0, 80, 0.15));
+        }
+
+        .wish-emoji-grid span:nth-child(odd) { animation-delay: 0.2s; }
+        .wish-emoji-grid span:nth-child(3n) { animation-delay: 0.6s; }
+        .wish-emoji-grid span:nth-child(4n+1) { animation-delay: 0.9s; }
+
+        @keyframes floatEmoji {
+            0% { transform: translateY(0) scale(0.9); }
+            100% { transform: translateY(-14px) scale(1.1); }
+        }
+
+        .footer-name {
+            margin-top: 20px;
+            font-size: 1rem;
+            color: #b08896;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 6px 20px;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Responsive */
+        @media (max-width: 500px) {
+            .card {
+                padding: 30px 20px 35px;
+                border-radius: 40px;
+                min-height: 450px;
+            }
+            .surprise-title {
+                font-size: 2.5rem;
+            }
+            .surprise-emoji-big {
+                font-size: 5rem;
+            }
+            h1 {
+                font-size: 2.8rem;
+            }
+            .sub-name {
+                font-size: 1.5rem;
+            }
+            .message-box {
+                font-size: 1rem;
+                padding: 16px;
+            }
+            .btn-reveal {
+                font-size: 1.1rem;
+                padding: 15px 35px;
+            }
+            .wish-emoji-grid span {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Bintang jatuh background -->
+    <div class="stars" id="starsContainer"></div>
+
+    <!-- Kartu utama -->
+    <div class="card" id="mainCard">
+
+        <!-- ===== STATE AWAL: SURPRISE ===== -->
+        <div class="surprise-state" id="surpriseState">
+            <div class="surprise-emoji-big">🎁</div>
+            <div class="surprise-title">Kejutan untuk Kamu!</div>
+            <div class="surprise-sub">✨ Ada yang spesial nih ✨</div>
+            <button class="btn-reveal" id="revealBtn">
+                <span class="shine"></span>
+                🎈 Klik di sini 🎈
+            </button>
+        </div>
+
+        <!-- ===== STATE UCAPAN (muncul setelah klik) ===== -->
+        <div class="wish-state" id="wishState">
+            <div class="badge">🎂 Happy Birthday 🎂</div>
+            <h1>Untuk Cintaku</h1>
+            <div class="sub-name">✨ Kamu ✨</div>
+            <div class="divider"></div>
+
+            <div class="message-box">
+                🌸 Hari ini adalah hari spesial, 
+                karena di hari ini lahir orang yang paling aku sayangi. <br><br>
+                <strong>Selamat ulang tahun, sayang!</strong> 🥳
+                <span class="love-note">❤️ Semoga semua impianmu tercapai, dan kita selalu bersama. ❤️</span>
+            </div>
+
+            <div class="wish-emoji-grid" id="wishEmojiGrid">
+                <!-- diisi JS -->
+            </div>
+
+            <div class="footer-name">💖 dari aku yang selalu mencintaimu 💖</div>
+        </div>
+
+    </div>
+
+    <script>
+        (function() {
+            // === Bintang jatuh ===
+            function createStars() {
+                const container = document.getElementById('starsContainer');
+                const emojis = ['✦', '✧', '⭐', '✨', '💫'];
+                for (let i = 0; i < 25; i++) {
+                    const star = document.createElement('div');
+                    star.className = 'star';
+                    star.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                    star.style.left = Math.random() * 100 + '%';
+                    star.style.top = Math.random() * 100 + '%';
+                    star.style.fontSize = (0.8 + Math.random() * 1.5) + 'rem';
+                    star.style.animationDelay = (Math.random() * 6) + 's';
+                    star.style.animationDuration = (3 + Math.random() * 4) + 's';
+                    container.appendChild(star);
+                }
+            }
+            createStars();
+
+            // === Elemen DOM ===
+            const surpriseState = document.getElementById('surpriseState');
+            const wishState = document.getElementById('wishState');
+            const revealBtn = document.getElementById('revealBtn');
+            const wishEmojiGrid = document.getElementById('wishEmojiGrid');
+            const mainCard = document.getElementById('mainCard');
+
+            // === Daftar emoji untuk wish state ===
+            const wishEmojis = ['🎈', '❤️', '🎉', '💖', '🎂', '🌸', '💕', '✨', '🥳', '🎊', '💗', '🌺', '🦋', '💝', '🍰', '🧁'];
+
+            // === Fungsi render emoji di wish state ===
+            function renderWishEmojis() {
+                // ambil 10-12 emoji acak
+                const shuffled = [...wishEmojis];
+                for (let i = shuffled.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+                }
+                const selected = shuffled.slice(0, 12);
+                wishEmojiGrid.innerHTML = '';
+                selected.forEach((emoji) => {
+                    const span = document.createElement('span');
+                    span.textContent = emoji;
+                    const delay = Math.random() * 1.2;
+                    span.style.animationDelay = delay + 's';
+                    wishEmojiGrid.appendChild(span);
+                });
+            }
+
+            // === Fungsi transisi dari surprise ke wish ===
+            function revealWish() {
+                // Sembunyikan state surprise
+                surpriseState.classList.add('hidden');
+                // Tampilkan state wish
+                wishState.classList.add('active');
+                // Render emoji
+                renderWishEmojis();
+
+                // Efek tambahan: kartu sedikit membesar
+                mainCard.style.transform = 'scale(1.02)';
+                mainCard.style.transition = '0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                setTimeout(() => {
+                    mainCard.style.transform = 'scale(1)';
+                }, 300);
+
+                // Animasi tambahan: balon berjatuhan (small extra)
+                setTimeout(() => {
+                    const allEmojis = wishEmojiGrid.querySelectorAll('span');
+                    allEmojis.forEach((el, idx) => {
+                        setTimeout(() => {
+                            el.style.transform = 'scale(1.4)';
+                            setTimeout(() => {
+                                el.style.transform = '';
+                            }, 400);
+                        }, idx * 80);
+                    });
+                }, 500);
+            }
+
+            // === Event listener tombol ===
+            revealBtn.addEventListener('click', function(e) {
+                // Efek klik tombol
+                this.style.transform = 'scale(0.92)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+
+                // Jalankan reveal
+                revealWish();
+
+                // Ubah teks tombol bentar (tapi tombol sudah hilang, ini ga ngaruh tapi aman)
+                // Tapi kita ubah sekalian biar ada feedback
+                this.textContent = '🥳 Yeay! 🥳';
+                setTimeout(() => {
+                    this.textContent = '🎈 Klik di sini 🎈';
+                }, 2000);
+            });
+
+            // === (Opsional) Efek saat halaman dimuat: kedip surprise ===
+            window.addEventListener('load', function() {
+                // Sedikit efek tambahan
+                const bigEmoji = document.querySelector('.surprise-emoji-big');
+                if (bigEmoji) {
+                    setTimeout(() => {
+                        bigEmoji.style.transform = 'scale(1.3)';
+                        setTimeout(() => {
+                            bigEmoji.style.transform = '';
+                        }, 400);
+                    }, 500);
+                }
+            });
+
+        })();
+    </script>
+
+</body>
+</html>
